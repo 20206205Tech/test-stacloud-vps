@@ -6,8 +6,11 @@ on:
     types: [trigger]
 
 jobs:
-  extract-and-load:
+  trigger:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,3 +22,14 @@ jobs:
 
       - name: Verify file
         run: cat temp/current_time.txt
+
+      - name: Commit and Push changes
+        run: |
+          # Cấu hình Git với bot account của GitHub
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Thêm file, commit và push
+          git add temp/current_time.txt
+          git commit -m "Update current time: $(date +'%Y-%m-%d %H:%M:%S')"
+          git push
