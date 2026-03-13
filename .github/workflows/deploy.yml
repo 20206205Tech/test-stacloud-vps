@@ -16,13 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Cài đặt uv để có thể sử dụng lệnh uv export
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
 
-      # Xuất file requirements.txt trước khi upload
       - name: Export requirements
         run: uv export --format requirements-txt -o requirements.txt
 
@@ -33,20 +31,6 @@ jobs:
           server: ${{ secrets.SFTP_HOST }}
           port: ${{ secrets.SFTP_PORT }}
           password: ${{ secrets.SFTP_PASSWORD }}
-
-          # Upload toàn bộ nội dung (bao gồm cả requirements.txt vừa tạo)
           local_path: "./*"
-
-          # Đừng quên bỏ comment và điền đường dẫn thực tế trên server của bạn
-          # remote_path: '/var/www/my-project'
           remote_path: "/"
-
           sftp_only: true
-          # delete_remote_files: false
-          # exclude: |
-          #   .git*
-          #   .github*
-          #   __pycache__*
-          #   venv*
-          #   .python-version
-          #   .uv
