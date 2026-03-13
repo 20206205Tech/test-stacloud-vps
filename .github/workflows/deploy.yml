@@ -35,6 +35,7 @@ jobs:
           
           # Đừng quên bỏ comment và điền đường dẫn thực tế trên server của bạn
           # remote_path: '/var/www/my-project'
+          remote_path: '/'
           
           delete_remote_files: false
           exclude: |
