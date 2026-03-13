@@ -12,34 +12,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Cài đặt uv để có thể sử dụng lệnh uv export
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
 
-      # Xuất file requirements.txt trước khi upload
       - name: Export requirements
         run: uv export --format requirements-txt -o requirements.txt
 
       - name: Deploy via SFTP
-        uses: samuelmeuli/action-sftp-deploy@v1
+        # Sử dụng bản thay thế ổn định hơn
+        uses: pressidium/sftp-deploy@v1
         with:
-          # Thông tin kết nối
           host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }} 
+          user: ${{ secrets.SFTP_USERNAME }} # Lưu ý: key này là 'user', không phải 'username'
+          pass: ${{ secrets.SFTP_PASSWORD }} # Lưu ý: key này là 'pass', không phải 'password'
           port: ${{ secrets.SFTP_PORT }}
-
-          # Thư mục nguồn (local) và đích (remote)
+          
           local_path: './' 
           remote_path: '/home/container/'
           
-          # Các file muốn loại bỏ (định dạng rsync/glob)
-          exclude: |
-            .git/
-            .github/
-            __pycache__/
-            venv/
-            .python-version
-            .uv/
+          # Cấu trúc loại trừ file
+          exclude: '.git* .github* __pycache__* venv* .python-version .uv*'
