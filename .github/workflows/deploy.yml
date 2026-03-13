@@ -35,13 +35,13 @@ jobs:
           
           # Đừng quên bỏ comment và điền đường dẫn thực tế trên server của bạn
           # remote_path: '/var/www/my-project'
-          remote_path: '/'
+          remote_path: '/home/container/'
           
           delete_remote_files: false
-          exclude: |
-            .git*
-            .github*
-            __pycache__*
-            venv*
-            .python-version
-            .uv
+          # exclude: |
+          #   .git*
+          #   .github*
+          #   __pycache__*
+          #   venv*
+          #   .python-version
+          #   .uv
