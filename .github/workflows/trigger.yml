@@ -1,0 +1,21 @@
+name: trigger
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [trigger]
+
+jobs:
+  extract-and-load:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create current time file in temp
+        run: |
+          mkdir -p temp
+          date +"%Y-%m-%d %H:%M:%S" > temp/current_time.txt
+
+      - name: Verify file
+        run: cat temp/current_time.txt

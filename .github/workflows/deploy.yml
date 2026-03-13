@@ -3,7 +3,11 @@ name: Deploy to Server via SFTP
 on:
   push:
     branches:
-      - main 
+      - main
+  workflow_run:
+    workflows: ["trigger"]
+    types:
+      - completed
 
 jobs:
   deploy:
@@ -28,15 +32,15 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME }}
           server: ${{ secrets.SFTP_HOST }}
           port: ${{ secrets.SFTP_PORT }}
-          password: ${{ secrets.SFTP_PASSWORD }} 
-          
+          password: ${{ secrets.SFTP_PASSWORD }}
+
           # Upload toàn bộ nội dung (bao gồm cả requirements.txt vừa tạo)
-          local_path: './*' 
-          
+          local_path: "./*"
+
           # Đừng quên bỏ comment và điền đường dẫn thực tế trên server của bạn
           # remote_path: '/var/www/my-project'
-          remote_path: '/'
-          
+          remote_path: "/"
+
           sftp_only: true
           # delete_remote_files: false
           # exclude: |
