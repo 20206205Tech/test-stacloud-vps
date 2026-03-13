@@ -23,25 +23,23 @@ jobs:
         run: uv export --format requirements-txt -o requirements.txt
 
       - name: Deploy via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        uses: samuelmeuli/action-sftp-deploy@v1
         with:
+          # Thông tin kết nối
+          host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
-          server: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT }}
           password: ${{ secrets.SFTP_PASSWORD }} 
-          
-          # Upload toàn bộ nội dung (bao gồm cả requirements.txt vừa tạo)
-          local_path: './*' 
-          
-          # Đừng quên bỏ comment và điền đường dẫn thực tế trên server của bạn
-          # remote_path: '/var/www/my-project'
+          port: ${{ secrets.SFTP_PORT }}
+
+          # Thư mục nguồn (local) và đích (remote)
+          local_path: './' 
           remote_path: '/home/container/'
           
-          delete_remote_files: false
-          # exclude: |
-          #   .git*
-          #   .github*
-          #   __pycache__*
-          #   venv*
-          #   .python-version
-          #   .uv
+          # Các file muốn loại bỏ (định dạng rsync/glob)
+          exclude: |
+            .git/
+            .github/
+            __pycache__/
+            venv/
+            .python-version
+            .uv/
