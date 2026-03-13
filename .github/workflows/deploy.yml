@@ -37,7 +37,8 @@ jobs:
           # remote_path: '/var/www/my-project'
           remote_path: '/home/container/'
           
-          delete_remote_files: false
+          sftp_only: true
+          # delete_remote_files: false
           # exclude: |
           #   .git*
           #   .github*
